@@ -1,6 +1,8 @@
 #include <libutils/misc.h>
 #include <libutils/timer.h>
 #include <libutils/fast_random.h>
+#include <libgpu/context.h>
+#include "cl/sum_cl.h"
 
 
 template<typename T>
@@ -58,7 +60,11 @@ int main(int argc, char **argv)
     }
 
     {
-        // TODO: implement on OpenCL
-        // gpu::Device device = gpu::chooseGPUDevice(argc, argv);
+        gpu::Device device = gpu::chooseGPUDevice(argc, argv);
+        gpu::Context context;
+        context.init(device.device_id_opencl);
+        context.activate();
+        ocl::Kernel kernel(sum_kernel, sum_kernel_length, "sum");
+
     }
 }

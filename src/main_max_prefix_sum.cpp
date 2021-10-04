@@ -1,6 +1,7 @@
 #include <libutils/misc.h>
 #include <libutils/timer.h>
 #include <libutils/fast_random.h>
+#include <libgpu/context.h>
 
 
 template<typename T>
@@ -71,7 +72,12 @@ int main(int argc, char **argv)
         }
 
         {
-            // TODO: implement on OpenCL
+            gpu::Device device = gpu::chooseGPUDevice(argc, argv);
+            gpu::Context context;
+            context.init(device.device_id_opencl);
+            context.activate();
+//            ocl::Kernel kernel(mandelbrot_kernel, mandelbrot_kernel_length, "mandelbrot");
+
         }
     }
 }
